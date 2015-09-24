@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 pull-right">
+            {% for news in object_list %}
+            <div class="col-md-9 col-lg-9 ">
+                <h4><strong>{{ news.title }}</strong></h4>
+                <span>
+                    <p>{{ news.up_votes}} points by {{ news.posted_by }} {{ news.posted_on }} | {{ news.comments }} comments</p>
+                </span>
+            </div>
+            <div class="col-md-3 col-lg-3">
+                <button class="btn btn-sm btn-danger">delete</button>
+                <button class="btn btn-sm btn-warning">mark as read</button>
+            </div>
+             {% endfor %}
+        </div> 
+    </div>
+
+</div>
+
+{% if is_paginated %}
+<div class="pagination">
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">More &raquo;</a>
+    {% endif %}
+</div>
+{% endif %}
+
+
+{% endblock %}
