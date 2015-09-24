@@ -1,6 +1,6 @@
 todo
 
--login/registration/dashboard
--management command
--ordering
+<!-- -login/registration/dashboard -->
+<!-- -management command -->
+<!-- -ordering -->
 -delete mark read
