@@ -3,17 +3,18 @@ from django.contrib.auth.models import User
 
 
 class Article(models.Model):
+	title = models.CharField(max_length=250, null=True)
 	hn_id = models.IntegerField()
+	description = models.TextField(null=True, blank=True)
 	url = models.URLField()
 	hn_url = models.URLField()
-	posted_on = models.DateTimeField(null=True)
+	posted_on = models.CharField(max_length=150, null=True)
 	up_votes = models.IntegerField()
 	comments = models.IntegerField()
-
-	ordering = ('posted_on')
+	posted_by = models.ForeignKey(User, null=True)
 
 	def __unicode__(self):
-		return self.url
+		return self.title
 
 
 class Log(models.Model):

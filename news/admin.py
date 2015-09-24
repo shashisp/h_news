@@ -4,7 +4,7 @@ import news.models as models
 
 class ArticleAdmin(admin.ModelAdmin):
 	model = models.Article
-	list_display = ('posted_on', 'comments', 'up_votes')
+	list_display = ('title','posted_on', 'comments', 'up_votes')
 
 
 class LogAdmin(admin.ModelAdmin):
