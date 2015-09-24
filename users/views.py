@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect, get_object_or_404, render_to_resp
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_protect
-
 from django.template import RequestContext
 
 from users.forms import *

@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from news.models import Article
+from news.models import Article, Vote
 
 
 class ArticleForm(ModelForm):
@@ -19,3 +19,9 @@ class ArticleForm(ModelForm):
 
 	def clean(self):
 		pass
+
+
+class VoteForm(ModelForm):
+    class Meta:
+        model = Vote
+        fields = ('article', 'voted_by')

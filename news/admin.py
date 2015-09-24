@@ -11,5 +11,8 @@ class LogAdmin(admin.ModelAdmin):
 	model = models.Log
 	list_display = ('user', 'article', 'is_read', 'is_deleted')
 
+
+
 admin.site.register(models.Article, ArticleAdmin)
 admin.site.register(models.Log, LogAdmin)
+admin.site.register(models.Vote)

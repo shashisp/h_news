@@ -11,13 +11,25 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-10 pull-right">
+        <div class="col-md-12">
             {% for news in object_list %}
             <div class="col-md-9 col-lg-9 ">
-                <h4><strong>{{ news.title }}</strong></h4>
-                <span>
-                    <p>{{ news.up_votes}} points by {{ news.posted_by }} {{ news.posted_on }} | {{ news.comments }} comments</p>
-                </span>
+                <div class="row"> 
+                 <div class="col-md-2 col-lg-2">
+                     <form method="post" action="{% url 'vote' %}" class="vote_form">
+                        {% csrf_token %}
+                        <input type="hidden"  name="article" value="{{ news.pk }}" />
+                        <input type="hidden"  name="voted_by"  value="{{ user.pk }}" />
+                    <button><img src="/static/vote_up.png"></button>
+                    </form>
+                </div>
+                <div class="col-md-10 col-lg-10">
+                    <h4><strong>{{ news.title }}</strong></h4>
+                    <span>
+                        <p>{{ news.up_votes}} points by {{ news.posted_by }} {{ news.posted_on }} | {{ news.comments }} comments</p>
+                    </span>
+                </div>
+                </div>
             </div>
             <div class="col-md-3 col-lg-3">
                 <button class="btn btn-sm btn-danger">delete</button>

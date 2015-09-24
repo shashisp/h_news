@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from news.views import ArticleListView
-
+from news.views import ArticleListView, VoteFormView
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = patterns('',
     # Examples:
@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^logout/', 'users.views.logout', name='logout'),
     url(r'^register/$', 'users.views.register', name='register'),
     url(r'^submit/$', 'news.views.create_new', name='submit'),
+    url(r'^vote/$', login_required(VoteFormView.as_view()), name="vote"),
 
     url(r'^admin/', include(admin.site.urls)),
 )

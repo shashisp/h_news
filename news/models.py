@@ -25,3 +25,11 @@ class Log(models.Model):
 
 	def __unicode__(self):
 		return u"%s" % self.user
+
+
+class Vote(models.Model):
+	article = models.ForeignKey(Article)
+	voted_by = models.ForeignKey(User)
+
+	def __unicode__(self):
+		return "%s voted %s" % (self.voted_by.username, self.article.title)
