@@ -10,6 +10,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 
 
 class ArticleListView(ListView):
+    """ generic list view to render list of articles
+    """ 
     model = models.Article
     queryset = models.Article.objects.all()
     template_name = 'dashboard.html'
@@ -45,6 +47,8 @@ class ArticleListView(ListView):
 
 @login_required(login_url='/login/')
 def create_new(request):
+    """ Method to create new article manually
+    """
     if request.method == 'GET':
         form = ArticleForm()
     else:
@@ -55,8 +59,8 @@ def create_new(request):
         	title = form.cleaned_data['title']
         	url = form.cleaned_data['url']
         	description = form.cleaned_data['description']
-        	posted_by = request.user
-        	posted_on = timezone.now()
+        	posted_by = request.user #requested user (loggedin)
+        	posted_on = timezone.now() #current time
         	article = models.Article.objects.create(title=title, url=url,
         				posted_on=posted_on, posted_by=posted_by,
         				description=description)
@@ -68,6 +72,8 @@ def create_new(request):
 
 
 class VoteFormView(FormView):
+    """ generic form view to send votes
+    """
     form_class = VoteForm
 
 
@@ -85,6 +91,8 @@ class VoteFormView(FormView):
         return HttpResponseRedirect('/')
 
 class ReadFormView(FormView):
+    """ generic form view to mark as read
+    """
     form_class = ReadForm
 
 
@@ -102,6 +110,8 @@ class ReadFormView(FormView):
         return HttpResponseRedirect('/')
 
 class DeleteFormView(FormView):
+    """ generic form view to mark as read
+    """
     form_class = DeleteForm
 
 

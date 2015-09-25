@@ -38,6 +38,8 @@ def login(request):
  
 @csrf_protect
 def register(request):
+    """User registration method vaildated via form
+    """
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():

@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 
 class Article(models.Model):
+	""" Model to  store all hacker news article attributes
+	"""
 	title = models.CharField(max_length=250, null=True)
 	hn_id = models.IntegerField(blank=True, null=True)
 	description = models.TextField(null=True, blank=True)
@@ -21,6 +23,8 @@ class Article(models.Model):
 		ordering = ('-posted_on',)
 
 	def save(self, *args, **kwargs):
+		""" while adding articles manually store slug as hacker news url
+		"""
 		if not self.hn_url:
 			self.hn_url = slugify(self.title)
 		super(Article, self).save(*args, **kwargs)
@@ -28,6 +32,8 @@ class Article(models.Model):
 
 
 class Vote(models.Model):
+	""" Model To track Votes
+	"""
 	article = models.ForeignKey(Article)
 	voted_by = models.ForeignKey(User)
 
@@ -36,6 +42,8 @@ class Vote(models.Model):
 
 
 class Read(models.Model):
+	""" Model to track readlog
+	"""
 	article = models.ForeignKey(Article)
 	read_by = models.ForeignKey(User)
 
@@ -44,6 +52,8 @@ class Read(models.Model):
 
 
 class Delete(models.Model):
+	""" Model to track delete logs
+	"""
 	article = models.ForeignKey(Article)
 	deleted_by = models.ForeignKey(User)
 
