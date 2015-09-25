@@ -2,7 +2,7 @@
 <html ng-app='news'>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<title>HN_NEWS</title>
+	<title>HACKER_NEWS</title>
 	
 	<link href="http://bootswatch.com/united/bootstrap.css" rel="stylesheet"/>
  
@@ -12,7 +12,7 @@
 	 <div class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <a href="/" class="navbar-brand">HN_NEWS</a>
+          <a href="/" class="navbar-brand">HACKER_NEWS</a>
           <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -22,16 +22,13 @@
         <div class="navbar-collapse collapse" id="navbar-main">
           
           <ul class="nav navbar-nav">
-            <li>
-              <a href="#" id="themes">New</a>
-            </li>
               <li>
               <a href="/submit" id="themes">Submit</a>
             </li>
            </ul>
           <ul class="nav navbar-nav navbar-right">
             {% if request.user.is_authenticated %}
-            <li><a>{{ request.user }}(1)</a></li>
+            <li><a href="/profile/{{ request.user }}">{{ request.user }}(1)</a></li>
             <li><a href="/logout/">Logout</a></li>
             {% else %}
             <li><a href="/login/">Login</a></li>

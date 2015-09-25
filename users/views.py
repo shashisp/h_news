@@ -5,7 +5,9 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_protect
 from django.template import RequestContext
-
+from django.contrib.auth import get_user_model
+from django.views.generic import  DetailView
+from users.models import UserProfile
 from users.forms import *
 
 
@@ -66,3 +68,14 @@ def register(request):
 def logout(request):
     auth_logout(request)
     return redirect('/')
+
+
+class UserProfileDetailView(DetailView):
+    model = get_user_model()
+    slug_field = "username"
+    template_name = "users/user.html"
+
+    def get_object(self, queryset=None):
+        user = super(UserProfileDetailView, self).get_object(queryset)
+        UserProfile.objects.get_or_create(user=user)
+        return user

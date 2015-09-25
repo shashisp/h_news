@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView
 import news.models as models
 from django.contrib.auth.decorators import login_required
@@ -42,6 +42,12 @@ class ArticleListView(ListView):
 
         return context
 
+
+class ArticleDetailView(DetailView):
+    """ Detail view to display manually added articles
+    """
+    model = Article
+    template_name = 'article.html'
 
 
 

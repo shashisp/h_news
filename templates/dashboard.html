@@ -34,7 +34,7 @@
                 <div class="col-md-10 col-lg-10">
                     <h4><strong>{{ news.title }}</strong></h4>
                     <span>
-                        <p>{{ news.up_votes}} points by <a href="{{ news.posted_by }}">{{ news.posted_by }}</a> {{ news.posted_on |naturaltime }} | <a href="{{ news.hn_url }}">{{ news.comments }} comments</a></p>
+                        <p>{{ news.up_votes}} points by <a href="/profile/{{ news.posted_by }}">{{ news.posted_by }}</a> {{ news.posted_on |naturaltime }} | <a href="{{ news.hn_url }}">{{ news.comments }} comments</a></p>
                     </span>
                 </div>
                 </div>
@@ -53,13 +53,6 @@
                         <button class="btn btn-sm btn-warning">mark as read</button>
                         {% endif %}
                     </form>
-                    <form method="post" action="{% url 'delete' %}" class="read_form">
-                        {% csrf_token %}
-                        <input type="hidden"  name="article" value="{{ news.pk }}" />
-                        <input type="hidden"  name="deleted_by"  value="{{ user.pk }}" />
-                        <button class="btn btn-sm btn-danger">Delete</button>
-                    </form>
-
                     {% endif %}
             </div>
              {% endfor %}
