@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from news.views import ArticleListView, VoteFormView, ReadFormView, DeleteFormView, ArticleDetailView
+from news.views import ArticleListView, VoteFormView, ReadFormView, DeleteFormView
 from users.views import UserProfileDetailView
 from django.contrib.auth.decorators import login_required
 
@@ -15,7 +15,6 @@ urlpatterns = patterns('',
     url(r'^vote/$', login_required(VoteFormView.as_view()), name="vote"),
     url(r'^read/$', login_required(ReadFormView.as_view()), name="read"),
     url(r'^delete/$', login_required(DeleteFormView.as_view()), name="delete"),
-    url(r'^(?P<slug>[\w-]+)/$', ArticleDetailView.as_view(), name='article'),
     url(r"^profile/(?P<slug>\w+)/$", UserProfileDetailView.as_view(),
         name="profile"),
 

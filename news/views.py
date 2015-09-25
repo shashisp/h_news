@@ -43,14 +43,6 @@ class ArticleListView(ListView):
         return context
 
 
-class ArticleDetailView(DetailView):
-    """ Detail view to display manually added articles
-    """
-    model = Article
-    template_name = 'article.html'
-
-
-
 @login_required(login_url='/login/')
 def create_new(request):
     """ Method to create new article manually
