@@ -60,7 +60,8 @@ class Command(BaseCommand):
 	    	article['hn_id'] = int(count_info.findAll('a')[2]['href'][8:])
 	    	article['up_votes'] = int(count_info.findAll('span')[0].string.split()[0])
 	    	article['hn_url'] = 'https://news.ycombinator.com/item?id='+str(article['hn_id'])
-	    	# import ipdb; ipdb.set_trace()
+	
+	    	# create new article object if not exist else update object attributes
 	    	if not Article.objects.filter(hn_id=article['hn_id']).exists():
 	        	Article.objects.get_or_create(title=article['title'], hn_id=article['hn_id'],
 	        	 url=article['url'], hn_url=article['hn_url'],

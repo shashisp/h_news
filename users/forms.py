@@ -37,18 +37,3 @@ class RegistrationForm(forms.Form):
             if self.cleaned_data['password1'] != self.cleaned_data['password2']:
                 raise forms.ValidationError(_("The two password fields did not match."))
         return self.cleaned_data
-
-
-class LoginForm(forms.Form):
-
-    username_or_email = forms.CharField()
-    password = forms.CharField()
-
-
-    def __init__(self, *args, **kwargs):
-        super(LoginForm, self).__init__(*args, **kwargs)
-        self.fields['username_or_email'].widget.attrs.update({'class' : 'form-control input', 'placeholder':'username'})
-        self.fields['email'].widget.attrs.update({'class' : 'form-control', 'placeholder':'email'})
-
-    def clean(self):
-        pass
