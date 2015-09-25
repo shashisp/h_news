@@ -7,16 +7,39 @@ from django.contrib.auth.decorators import login_required
 from news.forms import *
 from django.http import HttpResponseRedirect, HttpResponse
 
-def home(request):
-
-	return render(request, 'dashboard.html')
 
 
 class ArticleListView(ListView):
-	model = models.Article
-	queryset = models.Article.objects.all()
-	template_name = 'dashboard.html'
-	paginate_by = 5
+    model = models.Article
+    queryset = models.Article.objects.all()
+    template_name = 'dashboard.html'
+    paginate_by = 10
+
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticleListView, self).get_context_data(**kwargs)
+        if self.request.user.is_authenticated():
+            voted = models.Vote.objects.filter(voted_by=self.request.user)
+            articles_in_page = [article.id for article in context["object_list"]]
+            voted = voted.filter(article_id__in=articles_in_page)
+            voted = voted.values_list('article_id', flat=True)
+            context["voted"] = voted
+            
+            read = models.Read.objects.filter(read_by=self.request.user)
+            read = read.filter(article_id__in=articles_in_page)
+            read = read.values_list('article_id', flat=True)
+            context['read'] = read
+
+
+            # import ipdb; ipdb.set_trace()
+            #Dont render deleted objects
+            deleted = models.Delete.objects.filter(deleted_by=self.request.user)
+            deleted = deleted.filter(article_id__in=articles_in_page)
+            deleted = deleted.values_list('article', flat=True)
+
+
+        return context
+
 
 
 
@@ -34,15 +57,8 @@ def create_new(request):
         	description = form.cleaned_data['description']
         	posted_by = request.user
         	posted_on = timezone.now()
-        	comments = 0
-        	up_votes = 0
-        	hn_id = 0
-        	hn_url = "htt://abc.com"
         	article = models.Article.objects.create(title=title, url=url,
-        				posted_on=posted_on, posted_by=posted_by, up_votes=up_votes,
-        				comments=comments,
-        				hn_id=hn_id,
-        				hn_url=hn_url,
+        				posted_on=posted_on, posted_by=posted_by,
         				description=description)
         	return HttpResponseRedirect('/')
  
@@ -65,5 +81,39 @@ class VoteFormView(FormView):
             models.Vote.objects.create(article=article, voted_by=user)
         else:
             prev_vote[0].delete()
+
+        return HttpResponseRedirect('/')
+
+class ReadFormView(FormView):
+    form_class = ReadForm
+
+
+    def form_valid(self, form):
+        article = get_object_or_404(models.Article, pk=form.data["article"])
+        user = self.request.user
+        prev_read = models.Read.objects.filter(article=article, read_by=user)
+        has_read = prev_read.count() > 0
+
+        if not has_read:
+            models.Read.objects.create(article=article, read_by=user)
+        else:
+            prev_read[0].delete()
+
+        return HttpResponseRedirect('/')
+
+class DeleteFormView(FormView):
+    form_class = DeleteForm
+
+
+    def form_valid(self, form):
+        article = get_object_or_404(models.Article, pk=form.data["article"])
+        user = self.request.user
+        prev_delete = models.Delete.objects.filter(article=article, deleted_by=user)
+        has_deleted = prev_delete.count() > 0
+
+        if not has_deleted:
+            models.Delete.objects.create(article=article, deleted_by=user)
+        else:
+            prev_delete[0].delete()
 
         return HttpResponseRedirect('/')

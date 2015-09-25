@@ -7,12 +7,7 @@ class ArticleAdmin(admin.ModelAdmin):
 	list_display = ('title','posted_on', 'comments', 'up_votes')
 
 
-class LogAdmin(admin.ModelAdmin):
-	model = models.Log
-	list_display = ('user', 'article', 'is_read', 'is_deleted')
-
-
-
 admin.site.register(models.Article, ArticleAdmin)
-admin.site.register(models.Log, LogAdmin)
 admin.site.register(models.Vote)
+admin.site.register(models.Read)
+admin.site.register(models.Delete)

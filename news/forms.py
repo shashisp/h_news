@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from news.models import Article, Vote
+from news.models import Article, Vote, Read, Delete
 
 
 class ArticleForm(ModelForm):
@@ -25,3 +25,16 @@ class VoteForm(ModelForm):
     class Meta:
         model = Vote
         fields = ('article', 'voted_by')
+
+
+class ReadForm(ModelForm):
+    class Meta:
+        model = Read
+        fields = ('article', 'read_by')
+
+
+class DeleteForm(ModelForm):
+    class Meta:
+        model = Delete
+        fields = ('article', 'deleted_by')
+

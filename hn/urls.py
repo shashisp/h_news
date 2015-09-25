@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from news.views import ArticleListView, VoteFormView
+from news.views import ArticleListView, VoteFormView, ReadFormView, DeleteFormView
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = patterns('',
@@ -12,6 +12,8 @@ urlpatterns = patterns('',
     url(r'^register/$', 'users.views.register', name='register'),
     url(r'^submit/$', 'news.views.create_new', name='submit'),
     url(r'^vote/$', login_required(VoteFormView.as_view()), name="vote"),
+    url(r'^read/$', login_required(ReadFormView.as_view()), name="read"),
+    url(r'^delete/$', login_required(DeleteFormView.as_view()), name="delete"),
 
     url(r'^admin/', include(admin.site.urls)),
 )
