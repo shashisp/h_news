@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 
+
 class Article(models.Model):
 	""" Model to  store all hacker news article attributes
 	"""
@@ -39,6 +40,18 @@ class Vote(models.Model):
 
 	def __unicode__(self):
 		return "%s voted %s" % (self.voted_by.username, self.article.title)
+	
+	def save(self, *args, **kwargs): 
+		article = Article.objects.get(id=self.article.id)
+		article.up_votes = article.up_votes + 1
+		article.save()
+		super(Vote, self).save(*args, **kwargs)
+
+	def delete(self, *args, **kwargs):
+		article = Article.objects.get(id=self.article.id)
+		article.up_votes = article.up_votes - 1
+		article.save()
+		super(Vote, self).delete(*args, **kwargs)
 
 
 class Read(models.Model):
