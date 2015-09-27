@@ -125,3 +125,8 @@ class DeleteFormView(FormView):
             prev_delete[0].delete()
 
         return HttpResponseRedirect('/')
+
+class ArticleDetailView(DetailView):
+    model = models.Article
+    slug_field = "title"
+    template_name = "news/article_detail.html"

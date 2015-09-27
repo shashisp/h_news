@@ -27,7 +27,7 @@ class Article(models.Model):
 		""" while adding articles manually store slug as hacker news url
 		"""
 		if not self.hn_url:
-			self.hn_url = slugify(self.title)
+			self.hn_url = 'article/'+slugify(self.title)
 		super(Article, self).save(*args, **kwargs)
 
 
