@@ -21,6 +21,13 @@ class ArticleListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(ArticleListView, self).get_context_data(**kwargs)
         if self.request.user.is_authenticated():
+            deleted = models.Delete.objects.filter(deleted_by=self.request.user)
+            deleted = deleted.values_list('article', flat=True)
+
+            #Dont render deleted objects
+            self.object_list = self.object_list.exclude(id__in=deleted)
+            context['object_list'] = self.object_list
+  
             voted = models.Vote.objects.filter(voted_by=self.request.user)
             articles_in_page = [article.id for article in context["object_list"]]
             voted = voted.filter(article_id__in=articles_in_page)
@@ -31,13 +38,6 @@ class ArticleListView(ListView):
             read = read.filter(article_id__in=articles_in_page)
             read = read.values_list('article_id', flat=True)
             context['read'] = read
-
-
-            # import ipdb; ipdb.set_trace()
-            #Dont render deleted objects
-            deleted = models.Delete.objects.filter(deleted_by=self.request.user)
-            deleted = deleted.filter(article_id__in=articles_in_page)
-            deleted = deleted.values_list('article', flat=True)
 
 
         return context
